@@ -42,6 +42,16 @@ router.delete('/:id', (req, res) => {
 
 router.put('/:id', (req, res) => {
   // do your magic!
+  const {id} = req.params;
+  const body= req.body;
+  
+  Posts.update(id,body)
+  .then(post=>{
+    res.status(200).json(post)
+  })
+  .catch(error=>{
+    res.status(400).json({error: 'Error updating post'})
+  })
 });
 
 // custom middleware
