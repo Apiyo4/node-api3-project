@@ -1,13 +1,13 @@
 const express = require('express');
-const Users = require('./postDb');
+const Posts = require('./postDb');
 
 const router = express.Router();
 
 router.get('/', (req, res) => {
   // do your magic!
-  Users.get()
-  .then(users=>{
-    res.status(200).json(users);
+  Posts.get()
+  .then(posts=>{
+    res.status(200).json(posts);
   })
   .catch(error=>{
     res.status(500).json({error: 'Error retrieving users'});
