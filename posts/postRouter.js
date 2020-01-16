@@ -27,7 +27,7 @@ router.get('/:id', (req, res) => {
     res.status(400).json({error: 'Error while retieving post'})
   })
 });
-router.post('/', (req,res)=>{
+router.post('/', validatePost, (req,res)=>{
    const body= req.body;
    Posts.insert(body)
    .then(post=>{
@@ -66,8 +66,18 @@ router.put('/:id', (req, res) => {
 
 // custom middleware
 
-function validatePostId(req, res, next) {
+function validatePost(req, res, next) {
   // do your magic!
+  if(typeof(req.body) === "undefined"){
+    res.status(400).json({ message: "missing post data" })
+  }
+  else{
+    if(req.body.text){
+      next();
+    }else{
+      res.status(400).json({ message: "missing required text field" })
+    }
+  }
 }
 
 module.exports = router;
