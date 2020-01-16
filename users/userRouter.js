@@ -47,16 +47,34 @@ router.get('/:id', (req, res) => {
 
 router.get('/:id/posts', (req, res) => {
   // do your magic!
+
   
 
 });
 
 router.delete('/:id', (req, res) => {
   // do your magic!
+  Users.remove(req.params.id)
+  .then(user=>{
+    res.status(200).json({message: 'User was deleted'});
+  })
+  .catch(error=>{
+    res.status(400).json({message: 'Error deleting user'});
+  })
 });
 
 router.put('/:id', (req, res) => {
   // do your magic!
+  const {id} =req.params;
+  const body= req.body;
+  Users.update(id, body)
+  .then(user=>{
+    res.status(200).json(user);
+  })
+  .catch(error=>{
+    res.status(500).json({error: 'Error updating user'})
+  })
+
 });
 
 //custom middleware
