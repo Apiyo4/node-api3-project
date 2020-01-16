@@ -27,6 +27,16 @@ router.get('/:id', (req, res) => {
     res.status(400).json({error: 'Error while retieving post'})
   })
 });
+router.post('/', (req,res)=>{
+   const body= req.body;
+   Posts.insert(body)
+   .then(post=>{
+     res.status(200).json(post);
+   })
+   .catch(error=>{
+     res.status(500).json({error: 'Error while posting'})
+   })
+})
 
 router.delete('/:id', (req, res) => {
   // do your magic!
