@@ -30,6 +30,14 @@ router.get('/:id', (req, res) => {
 
 router.delete('/:id', (req, res) => {
   // do your magic!
+  const {id} = req.params;
+  Posts.remove(id)
+  .then(post=>{
+    res.status(200).json({message:'Post was deleted'})
+  })
+  .catch(error=>{
+    res.status(400).json({error: 'Error deleting post'})
+  })
 });
 
 router.put('/:id', (req, res) => {
