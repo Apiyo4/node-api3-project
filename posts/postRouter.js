@@ -17,6 +17,15 @@ router.get('/', (req, res) => {
 
 router.get('/:id', (req, res) => {
   // do your magic!
+  const {id} = req.params;
+
+  Posts.getById(id)
+  .then(post=>{
+    res.status(200).json(post);
+  })
+  .catch(error=>{
+    res.status(400).json({error: 'Error while retieving post'})
+  })
 });
 
 router.delete('/:id', (req, res) => {
