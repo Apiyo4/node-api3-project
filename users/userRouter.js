@@ -4,7 +4,7 @@ const Users=  require('./userDb');
 const router = express.Router();
 
 
-router.post('/', (req, res) => {
+router.post('/', validateUser, (req, res) => {
   // do your magic!
   Users.insert(req.body)
   .then(post=>{
@@ -98,10 +98,18 @@ function validateUserId(req, res, next) {
 
 function validateUser(req, res, next) {
   // do your magic!
+  if(req.body){
+    if(req.body.name){
+       next();
+    }else{
+      res.status(400).json({ message: "missing required name field" })
+    }
+
+  }else{
+    res.status(400).json({ message: "missing user data" })
+  }
 }
 
-function validatePost(req, res, next) {
-  // do your magic!
-}
+
 
 module.exports = router;
