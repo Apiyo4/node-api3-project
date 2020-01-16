@@ -15,7 +15,7 @@ router.get('/', (req, res) => {
 
 });
 
-router.get('/:id', (req, res) => {
+router.get('/:id',validatePostId, (req, res) => {
   // do your magic!
   const {id} = req.params;
 
@@ -38,7 +38,7 @@ router.post('/', validatePost, (req,res)=>{
    })
 })
 
-router.delete('/:id', (req, res) => {
+router.delete('/:id', validatePostId, (req, res) => {
   // do your magic!
   const {id} = req.params;
   Posts.remove(id)
@@ -50,7 +50,7 @@ router.delete('/:id', (req, res) => {
   })
 });
 
-router.put('/:id', (req, res) => {
+router.put('/:id',validatePostId, (req, res) => {
   // do your magic!
   const {id} = req.params;
   const body= req.body;
@@ -81,6 +81,18 @@ function validatePost(req, res, next) {
 }
 function validatePostId(req, res, next) {
   // do your magic!
+  const {id} = req.params;
+  
+  if(id){
+    Posts.getById(id)
+    .then(newP=>{
+      req.post= newP;
+    }
+    )
+    next();
+  }else{
+    res.status(400).json({ message: "invalid post id" })
+  }
 }
 
 module.exports = router;
